@@ -107,17 +107,18 @@ function HelpCard({ icon, tone, title, body }: (typeof items)[number]) {
         />
       </span>
 
-      {/* Phone values are the base; the sm: variants restore the desktop tuning.
-          These cannot be clamp floors — Figma wants the title, body and both
-          gaps LARGER on a phone than on desktop, and a floor above the vw term
-          would win at every width. */}
+      {/* The title and both gaps are LARGER on a phone than on desktop, which a
+          clamp floor cannot express — a floor above the vw term wins at every
+          width. So those are phone-first with sm: restoring the desktop tuning.
+          The body is the exception: its clamp already bottoms out at 16px, the
+          same size the Problem paragraph uses, so one value covers both. */}
       <h3 className="mt-[0.9375rem] text-[2rem] leading-[1.2] font-bold tracking-[-0.02em] sm:mt-[clamp(0.625rem,1vw,1.25rem)] sm:text-[clamp(1.4rem,2.36vw,2.95rem)]">
         {title}
       </h3>
 
       <p
         className={cn(
-          "mt-[1.25rem] text-[1.1875rem] leading-[1.2] sm:mt-[clamp(0.375rem,0.7vw,0.9rem)] sm:text-[clamp(1rem,1.239vw,1.55rem)]",
+          "mt-[1.25rem] text-[clamp(1rem,1.239vw,1.55rem)] leading-[1.2] sm:mt-[clamp(0.375rem,0.7vw,0.9rem)]",
           dark ? "text-white/85" : "text-ink",
         )}
       >

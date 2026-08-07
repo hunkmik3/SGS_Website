@@ -129,7 +129,9 @@ export function Contact() {
                     autoComplete={field.autoComplete}
                     required
                     placeholder={field.placeholder}
-                    className="h-[clamp(2.75rem,4.03vw,5rem)] w-full rounded-full border border-line bg-paper px-[clamp(1rem,1.4vw,1.75rem)] text-[clamp(0.8125rem,0.97vw,1.2rem)] text-ink transition-colors placeholder:text-muted focus:border-ink focus:outline-none"
+                    // Placeholder sits at full ink, matching the PROJECT
+                    // DETAILS label rather than the usual muted grey.
+                    className="h-[clamp(2.75rem,4.03vw,5rem)] w-full rounded-full border border-line bg-paper px-[clamp(1rem,1.4vw,1.75rem)] text-[clamp(0.8125rem,0.97vw,1.2rem)] text-ink transition-colors placeholder:text-ink focus:border-ink focus:outline-none"
                   />
                 </div>
               ))}
