@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 import { checkAttachment, MAX_ATTACHMENT_BYTES } from "@/lib/attachment";
-import { projectSelects } from "@/lib/contact";
 
 // Buffer and the Resend SDK both need the Node runtime, not Edge.
 export const runtime = "nodejs";
@@ -61,17 +60,6 @@ export async function POST(request: Request) {
 
   if (!EMAIL_RE.test(values.email)) return fail("That email address looks wrong.");
 
-  // Selects must match a value we actually offer, so the email can be trusted.
-  for (const select of projectSelects) {
-    const raw = form.get(select.name);
-    const value = typeof raw === "string" ? raw : "";
-    if (!value) return fail(`${select.label.replace("*", "")} is required.`);
-    if (!(select.options as readonly string[]).includes(value)) {
-      return fail(`${select.label.replace("*", "")} has an unexpected value.`);
-    }
-    values[select.name] = value;
-  }
-
   const attachments: { filename: string; content: Buffer }[] = [];
   const file = form.get("attachment");
   if (file instanceof File && file.size > 0) {
@@ -88,9 +76,6 @@ export async function POST(request: Request) {
     ["Name", `${values.firstName} ${values.lastName}`],
     ["Email", values.email],
     ["Phone", values.phone],
-    ...projectSelects.map(
-      (s) => [s.label.replace("*", ""), values[s.name]] as [string, string],
-    ),
   ];
 
   const html = `

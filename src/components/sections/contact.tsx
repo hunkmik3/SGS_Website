@@ -5,28 +5,22 @@ import { Link2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { Dropdown } from "@/components/ui/dropdown";
 import { Reveal } from "@/components/ui/reveal";
 import { checkAttachment } from "@/lib/attachment";
-import {
-  contactFields,
-  detailsPlaceholder,
-  projectSelects,
-} from "@/lib/contact";
+import { contactFields, detailsPlaceholder } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
 /**
  * Figma measurements (1440 frame): 58px pill inputs on a two-column grid with a
- * 21px gutter, a 201px details panel holding the four selects, then the upload
- * pill and the submit button — all on the shared 68% content column.
+ * 21px gutter, a details panel holding the brief, then the upload pill and the
+ * submit button — all on the shared 68% content column.
  *
  * Labels sit inside the controls as placeholders, so every field also carries a
  * visually hidden <label> for screen readers.
  */
 export function Contact() {
-  const [choices, setChoices] = useState<Record<string, string>>({});
   const [fileName, setFileName] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
@@ -56,13 +50,6 @@ export function Contact() {
     event.preventDefault();
     if (status === "sending") return;
 
-    const missing = projectSelects.find((s) => !choices[s.name]);
-    if (missing) {
-      setStatus("error");
-      setMessage(`Please choose a ${missing.label.replace("*", "").toLowerCase()}.`);
-      return;
-    }
-
     setStatus("sending");
     setMessage("");
 
@@ -82,7 +69,6 @@ export function Contact() {
       setStatus("sent");
       setMessage("Thanks — we'll be in touch shortly.");
       formRef.current?.reset();
-      setChoices({});
       setFileName(null);
     } catch {
       setStatus("error");
@@ -152,21 +138,6 @@ export function Contact() {
                 placeholder={detailsPlaceholder}
                 className="mt-[clamp(0.5rem,0.9vw,1.1rem)] w-full resize-none bg-transparent font-mono text-[clamp(0.75rem,0.9vw,1.1rem)] leading-[1.4] text-ink placeholder:text-line focus:outline-none"
               />
-
-              <div className="mt-[clamp(0.75rem,1.4vw,1.75rem)] grid gap-[clamp(0.375rem,0.6vw,0.75rem)] sm:grid-cols-2 lg:grid-cols-4">
-                {projectSelects.map(({ name, label, options }) => (
-                  <Dropdown
-                    key={name}
-                    name={name}
-                    label={label}
-                    options={options}
-                    value={choices[name] ?? ""}
-                    onChange={(value) =>
-                      setChoices((prev) => ({ ...prev, [name]: value }))
-                    }
-                  />
-                ))}
-              </div>
             </div>
 
             <label className="flex h-[clamp(2.75rem,4.03vw,5rem)] cursor-pointer items-center gap-[clamp(0.5rem,0.7vw,0.9rem)] rounded-full border border-line px-[clamp(1rem,1.4vw,1.75rem)] transition-colors hover:border-ink">
