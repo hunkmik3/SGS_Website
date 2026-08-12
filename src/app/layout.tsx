@@ -51,7 +51,7 @@ const quote = Libre_Franklin({
 export const metadata: Metadata = {
   title: "Sleepy Giant Studio — Ship 10x more without 10x the team.",
   description:
-    "An AI-native creative studio. We deliver finished animation at a scale your headcount never could, powered by an AI-native pipeline.",
+    "An AI-native production pipeline engineered for higher output, consistent quality and leaner production overhead.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

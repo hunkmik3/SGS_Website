@@ -21,29 +21,29 @@ const items = [
   {
     icon: "/images/icons/finished-production.png",
     tone: "dark",
-    title: "Finished production",
-    body: "We deliver shipped animation to your spec, not a toolkit you have to run.",
+    title: "Finished Production",
+    body: "Fully rendered, ready-to-publish animation. Zero operational burden on your end.",
     mobileOrder: 0,
   },
   {
     icon: "/images/icons/built-around-you.png",
     tone: "cream",
-    title: "Built around you",
-    body: "Shaped to your look, format and pace. No house style forced on you.",
+    title: "100% Custom-fit",
+    body: "Built around your visual language and format. You retain full creative control.",
     mobileOrder: 1,
   },
   {
     icon: "/images/icons/craft-that-holds.png",
     tone: "cream",
-    title: "Craft that holds",
-    body: "Veteran artists on every frame. Speed never costs you the quality fans notice.",
+    title: "Quality Always First",
+    body: "AI-powered speed backed by veteran animation talent. Quality stays consistent, even at volume.",
     mobileOrder: 3,
   },
   {
     icon: "/images/icons/scale-on-demand.png",
     tone: "dark",
-    title: "Scale on demand",
-    body: "Flex volume up or down without hiring and keep the output consistent.",
+    title: "Scale On Demand",
+    body: "Flexible production capacity without adding headcount or fixed overhead.",
     mobileOrder: 2,
   },
 ] as const;
@@ -56,8 +56,12 @@ export function Help() {
           <p className="text-center font-mono text-[clamp(0.9375rem,1.41vw,1.76rem)] text-ink">
             How we help
           </p>
-          <h2 className="mt-[clamp(0.25rem,0.4vw,0.5rem)] text-center text-heading font-bold">
-            Tailored, end to end.
+          {/* Same shape as --text-heading but a gentler vw. This copy needs
+              1002px at the token's 46px, more than the 979px column, so it
+              would break after "your". 3vw lands at 43px and leaves ~40px of
+              slack — enough that the real Neue Haas cut cannot push it over. */}
+          <h2 className="mt-[clamp(0.25rem,0.4vw,0.5rem)] text-center text-[clamp(2.25rem,3vw,3.75rem)] leading-[1.12] font-bold tracking-[-0.025em]">
+            Full-service execution. Built around your stack.
           </h2>
         </Reveal>
 

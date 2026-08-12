@@ -32,16 +32,20 @@ export function Problem() {
             </p>
 
             <h3 className="mt-[clamp(1rem,2vw,2.5rem)] text-subhead font-bold">
-              Talent is not the bottleneck.
+              Talent isn&apos;t the bottleneck.
               <br />
               Scale is.
             </h3>
 
             <p className="mt-[clamp(0.375rem,0.55vw,0.7rem)] text-body text-ink">
-              Studios, brand teams, and IP owners all hit the same ceiling:
-              output capped by headcount while demand keeps climbing. The tech
-              that breaks that ceiling moves faster than most teams can adopt, so
-              it sits on the shelf. We close the gap, and run it with you.
+              Studios, brand teams and IP owners all face the same ceiling:
+              output remains capped by headcount while demand keeps climbing.
+              Although technology solutions exist, they evolve too quickly for
+              internal teams to adopt or master.
+            </p>
+
+            <p className="mt-[clamp(0.75rem,1vw,1.25rem)] text-body text-ink">
+              We bring the tech, fix the pipeline and run it with you.
             </p>
           </Reveal>
 

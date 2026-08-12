@@ -40,11 +40,11 @@ export function Hero() {
           {/* 26em of its own font size reproduces the Figma line break and
               keeps doing so as the fluid lead size changes. */}
           <p className="mx-auto mt-3 max-w-[26em] text-lead text-ink sm:mt-9">
-            We deliver finished animation at a scale
+            An AI-native production pipeline engineered
             <br className="sm:hidden" />{" "}
-            your headcount never could,
+            for higher output, consistent quality
             <br className="sm:hidden" />{" "}
-            powered by an AI-native pipeline.
+            and leaner production overhead.
           </p>
         </Reveal>
 
