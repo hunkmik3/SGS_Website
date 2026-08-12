@@ -37,9 +37,14 @@ export function Hero() {
         </Reveal>
 
         <Reveal className="w-full" delay={0.12}>
-          {/* 26em of its own font size reproduces the Figma line break and
-              keeps doing so as the fluid lead size changes. */}
-          <p className="mx-auto mt-3 max-w-[26em] text-lead text-ink sm:mt-9">
+          {/* Measured in em so the wrap holds as the fluid lead size changes.
+              29em pulls "output," up onto the first line: that line needs
+              27.19em, and the word after it would need 32.04em, so anything
+              between those two breaks in the right place. 29em sits clear of
+              both ends, which leaves room for a wider font later.
+              On a phone the column is narrower than this, so the hard breaks
+              below decide the wrap instead. */}
+          <p className="mx-auto mt-3 max-w-[29em] text-lead text-ink sm:mt-9">
             An AI-native production pipeline engineered
             <br className="sm:hidden" />{" "}
             for higher output, consistent quality

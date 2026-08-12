@@ -29,7 +29,7 @@ const items = [
     icon: "/images/icons/built-around-you.png",
     tone: "cream",
     title: "100% Custom-fit",
-    body: "Built around your visual language and format. You retain full creative control.",
+    body: "Adapted to your visual language and format. You retain full creative control.",
     mobileOrder: 1,
   },
   {
