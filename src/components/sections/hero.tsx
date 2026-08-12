@@ -37,19 +37,22 @@ export function Hero() {
         </Reveal>
 
         <Reveal className="w-full" delay={0.12}>
-          {/* Measured in em so the wrap holds as the fluid lead size changes.
-              29em pulls "output," up onto the first line: that line needs
-              27.19em, and the word after it would need 32.04em, so anything
-              between those two breaks in the right place. 29em sits clear of
-              both ends, which leaves room for a wider font later.
-              On a phone the column is narrower than this, so the hard breaks
-              below decide the wrap instead. */}
-          <p className="mx-auto mt-3 max-w-[29em] text-lead text-ink sm:mt-9">
-            An AI-native production pipeline engineered
+          {/* Two kinds of break, because the two layouts want different ones.
+              No max-width can put the desktop break after "for": that second
+              line needs 28.69em, yet holding "higher" back would require under
+              28.58em. So the break after "for" is a hard one, shown only from
+              sm up. The phone breaks are the reverse — its 351px column cannot
+              take the 426px first line, so it splits in three other places. */}
+          <p className="mx-auto mt-3 max-w-[30em] text-lead text-ink sm:mt-9">
+            We deliver an AI-native production
             <br className="sm:hidden" />{" "}
-            for higher output, consistent quality
+            pipeline engineered for
+            <br className="max-sm:hidden" />{" "}
+            higher output,
             <br className="sm:hidden" />{" "}
-            and leaner production overhead.
+            consistent quality and leaner
+            <br className="sm:hidden" />{" "}
+            production overhead.
           </p>
         </Reveal>
 
