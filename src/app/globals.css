@@ -12,7 +12,9 @@
 
   /* Surfaces */
   --color-paper: #ffffff;
-  --color-cream: #f1ece3;
+  /* Confirmed brand cream. It also matches the background sampled out of the
+     master favicon artwork, which is what makes it trustworthy. */
+  --color-cream: #f5f1e8;
   --color-ink: #0d0d0d;
   --color-ink-soft: #191919;
 
@@ -73,6 +75,7 @@
   --font-sans: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-code), ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-quote: var(--font-quote-face), Georgia, serif;
+  --font-label: var(--font-label-face), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Marquee tracks hold two identical copies of the card list. Each card carries

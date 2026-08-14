@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Libre_Franklin } from "next/font/google";
+import { Geist, Geist_Mono, Libre_Franklin, Noto_Sans } from "next/font/google";
 import "./globals.css";
 
 /**
@@ -48,6 +48,18 @@ const quote = Libre_Franklin({
   display: "swap",
 });
 
+/**
+ * Noto Sans Light — Figma specifies it for the label above nearly every section
+ * heading (20px / 105% / 0% tracking / #000). Another real Google font, so this
+ * one matches the design exactly rather than standing in for it.
+ */
+const label = Noto_Sans({
+  variable: "--font-label-face",
+  subsets: ["latin"],
+  weight: "300",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Sleepy Giant Studio — Ship 10x more without 10x the team.",
   description:
@@ -58,7 +70,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${display.variable} ${code.variable} ${quote.variable} h-full antialiased`}
+      className={`${display.variable} ${code.variable} ${quote.variable} ${label.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col overflow-x-hidden">
         {children}
