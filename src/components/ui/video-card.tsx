@@ -8,8 +8,12 @@ import { motion, useInView, useReducedMotion } from "motion/react";
 type VideoCardProps = {
   src: string;
   poster: string;
-  /** Overlay copy, shown on the card behind the play affordance. */
-  children: React.ReactNode;
+  /**
+   * Overlay copy, shown on the card behind the play affordance. Optional: with
+   * none there is nothing to hold contrast for, so the scrim and its fade are
+   * skipped rather than dimming the footage for no reason.
+   */
+  children?: React.ReactNode;
 };
 
 /**
@@ -140,20 +144,22 @@ export function VideoCard({ src, poster, children }: VideoCardProps) {
         {/* Scrim and copy fade together: the scrim only exists to hold contrast
             under the words, and once they are gone it would just be a grey veil
             over the footage. */}
-        <motion.div
-          aria-hidden
-          animate={{ opacity: faded ? 0 : 1 }}
-          transition={{ duration: COPY_FADE_S, ease: "easeInOut" }}
-          className="pointer-events-none absolute inset-0"
-        >
-          {/* The footage brightens in places, so the copy needs a floor of
+        {children ? (
+          <motion.div
+            aria-hidden
+            animate={{ opacity: faded ? 0 : 1 }}
+            transition={{ duration: COPY_FADE_S, ease: "easeInOut" }}
+            className="pointer-events-none absolute inset-0"
+          >
+            {/* The footage brightens in places, so the copy needs a floor of
               contrast that does not depend on which frame is showing. */}
-          <div className="absolute inset-0 bg-ink/35" />
+            <div className="absolute inset-0 bg-ink/35" />
 
-          <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-            {children}
-          </div>
-        </motion.div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+              {children}
+            </div>
+          </motion.div>
+        ) : null}
 
         {/* A real button, so the interaction is reachable by keyboard. The copy
             above it is inert, letting clicks through. */}
