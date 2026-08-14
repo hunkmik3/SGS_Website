@@ -37,7 +37,7 @@ export function Work() {
 
 function WorkCard({ item, priority }: { item: WorkItem; priority: boolean }) {
   return (
-    <figure className="relative aspect-[186/277] overflow-hidden rounded-[14px] bg-ink">
+    <figure className="relative aspect-[186/277] overflow-hidden rounded-[14px] bg-panel">
       {item.image ? (
         <Image
           src={item.image}

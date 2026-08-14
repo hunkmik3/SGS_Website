@@ -12,7 +12,7 @@ import { site } from "@/lib/site";
  */
 export function Footer() {
   return (
-    <footer className="bg-ink pt-[clamp(2rem,3.05vw,3.8rem)] pb-[clamp(0.75rem,1vw,1.25rem)] text-cream">
+    <footer className="bg-panel pt-[clamp(2rem,3.05vw,3.8rem)] pb-[clamp(0.75rem,1vw,1.25rem)] text-cream">
       <Container>
         <Reveal>
           {/* Cream, not the component's #000: the band is black. */}

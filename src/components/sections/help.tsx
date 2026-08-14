@@ -94,13 +94,13 @@ function HelpCard({ icon, tone, title, body }: (typeof items)[number]) {
       className={cn(
         "h-full rounded-[clamp(0.5rem,0.9vw,1.1rem)] p-[clamp(1.25rem,1.875vw,2.35rem)]",
         "transition-transform duration-300 ease-out hover:-translate-y-1.5",
-        dark ? "bg-ink text-white" : "bg-cream text-ink",
+        dark ? "bg-panel text-white" : "bg-cream text-panel",
       )}
     >
       <span
         className={cn(
           "flex size-[clamp(2.25rem,3.4vw,4.25rem)] items-center justify-center rounded-[clamp(0.4rem,0.75vw,0.95rem)]",
-          dark ? "bg-brand" : "bg-ink",
+          dark ? "bg-brand" : "bg-panel",
         )}
       >
         <Image
@@ -124,7 +124,7 @@ function HelpCard({ icon, tone, title, body }: (typeof items)[number]) {
       <p
         className={cn(
           "mt-[1.25rem] text-[clamp(1rem,1.239vw,1.55rem)] leading-[1.2] sm:mt-[clamp(0.375rem,0.7vw,0.9rem)]",
-          dark ? "text-white/85" : "text-ink",
+          dark ? "text-white/85" : "text-panel",
         )}
       >
         {body}

@@ -17,6 +17,11 @@
   --color-cream: #f5f1e8;
   --color-ink: #0d0d0d;
   --color-ink-soft: #191919;
+  /* Blocks that are dark by design — the footer band, the stats bar, the work
+     panel, the dark help cards. Identical to ink in the light theme; it exists
+     so the two roles ink was carrying can move independently. Flipping ink for a
+     dark theme has to lighten body copy while those blocks stay dark. */
+  --color-panel: #0d0d0d;
 
   /* Text */
   --color-muted: #6e6e6e;
@@ -24,6 +29,10 @@
 
   /* Lines — #D7D7D7 read from Figma Dev Mode on the testimonial card border. */
   --color-line: #d7d7d7;
+  /* The hint inside the project-details box. Its own token because the light
+     theme draws it in the line colour, and a dark theme cannot: a border grey
+     that reads as a hairline on white is invisible as text on black. */
+  --color-hint: #d7d7d7;
 
   /* Highlighted row in the project dropdowns — estimated from the mock. */
   --color-select-active: #9f9f9f;
@@ -97,6 +106,38 @@
   to {
     transform: translateX(0);
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Dark theme — scoped, not global
+   Only the surface and foreground tokens move; brand red and cream are fixed
+   points in both themes. Scoping it to an attribute rather than a media query
+   or the <html> element is what lets /darkmode-review render dark while every
+   other route stays exactly as approved.
+--------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --color-paper: #0d0d0d;
+  --color-ink: #f5f1e8;
+  /* Raised off the page rather than level with it, so the blocks that were dark
+     on white still read as blocks on black. */
+  --color-panel: #1e1e1e;
+  --color-muted: #a3a3a3;
+  --color-line: #2a2a2a;
+  --color-hint: #6e6e6e;
+  --color-select-active: #6e6e6e;
+}
+
+/* The seven client marks are dark glyphs on transparent, averaging 4–51 in
+   brightness, so on a black page they vanish. Inverting luminance while rotating
+   hue back leaves the coloured ones their own colour.
+   Only marks on transparent get this. Artwork that carries its own background —
+   the ceiling chart, which is already a dark card — needs nothing: it reads as a
+   panel on a dark page just as it did on a light one, and inverting it would
+   turn it into a white slab.
+   A stopgap for review; shipping this wants real light-variant assets. */
+[data-theme="dark"] [data-invert-on-dark] img,
+[data-theme="dark"] img[data-invert-on-dark] {
+  filter: invert(1) hue-rotate(180deg);
 }
 
 @layer base {

@@ -10,7 +10,12 @@ import { Container } from "@/components/ui/container";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export function Header() {
+/**
+ * `onDark` swaps in the light logo artwork. Everything else in the header is
+ * already token-driven, so it follows a dark theme on its own — but the mark is
+ * a raster asset with a fixed colour, and the dark one disappears on black.
+ */
+export function Header({ onDark = false }: { onDark?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -40,7 +45,11 @@ export function Header() {
           className="shrink-0 transition-opacity hover:opacity-80"
         >
           <Image
-            src="/images/logo-sleepy-giant.png"
+            src={
+              onDark
+                ? "/images/logo-sleepy-giant-light.png"
+                : "/images/logo-sleepy-giant.png"
+            }
             alt={site.name}
             width={488}
             height={220}

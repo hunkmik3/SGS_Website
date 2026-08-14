@@ -17,7 +17,7 @@ export function SectionLabel({
   return (
     <p
       className={cn(
-        "font-label text-[clamp(0.9375rem,1.389vw,1.76rem)] leading-[1.05] font-light text-black",
+        "font-label text-[clamp(0.9375rem,1.389vw,1.76rem)] leading-[1.05] font-light text-ink",
         className,
       )}
       {...props}

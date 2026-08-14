@@ -137,7 +137,7 @@ export function Contact() {
                 required
                 rows={4}
                 placeholder={detailsPlaceholder}
-                className="mt-[clamp(0.5rem,0.9vw,1.1rem)] w-full resize-none bg-transparent font-mono text-[clamp(0.75rem,0.9vw,1.1rem)] leading-[1.4] text-ink placeholder:text-line focus:outline-none"
+                className="mt-[clamp(0.5rem,0.9vw,1.1rem)] w-full resize-none bg-transparent font-mono text-[clamp(0.75rem,0.9vw,1.1rem)] leading-[1.4] text-ink placeholder:text-hint focus:outline-none"
               />
             </div>
 

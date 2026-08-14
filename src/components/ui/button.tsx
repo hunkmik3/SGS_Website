@@ -10,8 +10,8 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary: "bg-brand text-white hover:bg-brand-hover",
-  outline: "border border-ink text-ink hover:bg-ink hover:text-white",
-  invert: "bg-white text-ink hover:bg-white/85",
+  outline: "border border-ink text-ink hover:bg-ink hover:text-paper",
+  invert: "bg-paper text-ink hover:bg-paper/85",
 };
 
 const sizes: Record<Size, string> = {

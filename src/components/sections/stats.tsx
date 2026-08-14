@@ -21,7 +21,7 @@ export function Stats() {
   return (
     <section className="pt-[clamp(3rem,5.7vw,7.1rem)]">
       <Reveal className="mx-auto w-[96%]">
-        <div className="grid gap-y-[5.5rem] rounded-[clamp(0.75rem,1.6vw,2rem)] bg-ink px-[10.5%] py-[clamp(2.375rem,4.7vw,5.9rem)] text-center sm:grid-cols-3 sm:gap-y-0">
+        <div className="grid gap-y-[5.5rem] rounded-[clamp(0.75rem,1.6vw,2rem)] bg-panel px-[10.5%] py-[clamp(2.375rem,4.7vw,5.9rem)] text-center sm:grid-cols-3 sm:gap-y-0">
           {stats.map(({ lead, accent, label, count }) => (
             <div key={lead}>
               <p className="text-[clamp(3.5rem,4.44vw,5.55rem)] leading-none font-bold tracking-[-0.03em] text-cream">

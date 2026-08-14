@@ -52,7 +52,7 @@ export function MobileNav() {
       role="dialog"
       aria-modal="true"
       aria-label="Site menu"
-      className="fixed inset-0 z-60 flex flex-col bg-ink text-cream sm:hidden"
+      className="fixed inset-0 z-60 flex flex-col bg-panel text-cream sm:hidden"
     >
       <Container className="flex h-[68px] shrink-0 items-center justify-between">
         <Image

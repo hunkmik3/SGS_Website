@@ -35,7 +35,9 @@ export function Trusted() {
           {/* Phones justify each row to the column edges, as in Figma. Desktop
               stays centred: its second row is deliberately narrower there, and
               space-between would stretch three logos across the full column. */}
-          <ul className="mt-[clamp(1.25rem,3.13vw,3.9rem)] flex flex-wrap items-center justify-between gap-x-[clamp(1.5rem,4.97vw,6.2rem)] gap-y-[clamp(1.5rem,3.26vw,4.1rem)] lg:justify-center [--logo-h:clamp(1.7rem,3.5vw,4.35rem)]">
+          <ul
+          data-invert-on-dark
+          className="mt-[clamp(1.25rem,3.13vw,3.9rem)] flex flex-wrap items-center justify-between gap-x-[clamp(1.5rem,4.97vw,6.2rem)] gap-y-[clamp(1.5rem,3.26vw,4.1rem)] lg:justify-center [--logo-h:clamp(1.7rem,3.5vw,4.35rem)]">
             {clientLogos.map(({ name, src, scale, mobileScale, mobileOrder }, i) => (
               <Fragment key={name}>
                 <li

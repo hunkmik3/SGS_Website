@@ -81,7 +81,7 @@ function QuoteCard({ item }: { item: Testimonial }) {
         // Dev Mode: 479×273, radius 24px, 1px #D7D7D7 border.
         "rounded-[clamp(0.875rem,1.667vw,2.1rem)] px-[clamp(1.25rem,2.2vw,2.75rem)] pt-[clamp(0.875rem,1.6vw,2rem)] pb-[clamp(1.25rem,2.15vw,2.7rem)]",
         "border border-line bg-paper text-ink transition-colors duration-300",
-        "hover:border-ink hover:bg-ink hover:text-white",
+        "hover:border-ink hover:bg-panel hover:text-white",
       )}
     >
       {/* Figma: Libre Franklin ExtraLight, 160px. A quote glyph's ink sits high
