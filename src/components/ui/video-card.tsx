@@ -5,9 +5,17 @@ import { createPortal } from "react-dom";
 import { Volume2, X } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 
+import { cn } from "@/lib/utils";
+
 type VideoCardProps = {
   src: string;
   poster: string;
+  /**
+   * Phones get a portrait card instead of 16:9. Opt-in rather than automatic:
+   * the reel on the home page has no phone design yet, and cropping a landscape
+   * frame to portrait throws away two thirds of it.
+   */
+  tallOnPhones?: boolean;
   /**
    * Overlay copy, shown on the card behind the play affordance. Optional: with
    * none there is nothing to hold contrast for, so the scrim and its fade are
@@ -30,9 +38,16 @@ type VideoCardProps = {
  *
  * The overlay copy reads for a beat and then fades off, handing the frame over to
  * the footage. It is timed off the loop actually starting rather than off mount,
- * so the words are never gone before the video they sit on has begun.
+ * so the words are never gone before the video they sit on has begun — and since
+ * the loop now waits for the card to be on screen, that beat starts when someone
+ * is actually looking at it.
  */
-export function VideoCard({ src, poster, children }: VideoCardProps) {
+export function VideoCard({
+  src,
+  poster,
+  tallOnPhones = false,
+  children,
+}: VideoCardProps) {
   const frame = useRef<HTMLDivElement>(null);
   const loop = useRef<HTMLVideoElement>(null);
   const dialogVideo = useRef<HTMLVideoElement>(null);
@@ -47,17 +62,21 @@ export function VideoCard({ src, poster, children }: VideoCardProps) {
   const COPY_HOLD_MS = 2500;
   const COPY_FADE_S = 1.2;
 
-  // The file is heavy, so hold the src back until the card is nearly in view.
-  // A visitor who never scrolls this far downloads only the poster.
+  // Two different questions, so two observers. This one decides when to fetch:
+  // the file is heavy, so the src is held back until the card is nearly in view
+  // and a visitor who never scrolls this far downloads only the poster.
   const near = useInView(frame, { once: true, margin: "400px" });
+  // And this one decides when to play — on arrival rather than 400px early, and
+  // it stops again on the way out instead of running off-screen.
+  const onScreen = useInView(frame, { amount: 0.35 });
 
   useEffect(() => {
     const el = loop.current;
     if (!el || !near) return;
     // src arrives after the autoplay attribute was evaluated, so start by hand.
-    if (open || reduced) el.pause();
+    if (open || reduced || !onScreen) el.pause();
     else void el.play().catch(() => {});
-  }, [near, open, reduced]);
+  }, [near, onScreen, open, reduced]);
 
   // Left visible for anyone who asked for less motion: fading copy out is the
   // one thing here that removes content rather than just moving it.
@@ -97,7 +116,7 @@ export function VideoCard({ src, poster, children }: VideoCardProps) {
       role="dialog"
       aria-modal="true"
       aria-label="Sleepy Giant Studio showreel"
-      className="fixed inset-0 z-70 flex items-center justify-center bg-ink/95 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-70 flex items-center justify-center bg-panel/95 p-4 backdrop-blur-sm"
       onClick={close}
     >
       <button
@@ -128,7 +147,10 @@ export function VideoCard({ src, poster, children }: VideoCardProps) {
     <>
       <div
         ref={frame}
-        className="relative aspect-video overflow-hidden rounded-[clamp(0.625rem,1.11vw,1.4rem)] bg-ink"
+        className={cn(
+          "relative aspect-video overflow-hidden rounded-[clamp(0.625rem,1.11vw,1.4rem)] bg-panel",
+          tallOnPhones && "max-sm:aspect-[29/50]",
+        )}
       >
         <video
           ref={loop}
@@ -153,7 +175,7 @@ export function VideoCard({ src, poster, children }: VideoCardProps) {
           >
             {/* The footage brightens in places, so the copy needs a floor of
               contrast that does not depend on which frame is showing. */}
-            <div className="absolute inset-0 bg-ink/35" />
+            <div className="absolute inset-0 bg-panel/35" />
 
             <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
               {children}
@@ -172,7 +194,7 @@ export function VideoCard({ src, poster, children }: VideoCardProps) {
           <span className="sr-only">Play with sound</span>
           <span
             aria-hidden
-            className="flex items-center gap-2 rounded-full bg-ink/60 px-[0.9em] py-[0.45em] font-mono text-[clamp(0.625rem,0.83vw,1.05rem)] text-cream uppercase backdrop-blur-sm transition-colors hover:bg-ink/80"
+            className="flex items-center gap-2 rounded-full bg-panel/60 px-[0.9em] py-[0.45em] font-mono text-[clamp(0.625rem,0.83vw,1.05rem)] text-cream uppercase backdrop-blur-sm transition-colors max-sm:hidden hover:bg-panel/80"
           >
             <Volume2 className="size-[1.2em]" />
             Play with sound

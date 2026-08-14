@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { ChevronRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -14,9 +15,25 @@ import { cn } from "@/lib/utils";
  * #F5F1E8. The two name lines' boxes touch — 3316 + 82 = 3398 — so they carry no
  * gap between them at all.
  *
- * Phones get a 3:4 card instead. At 351px wide the Figma ratio leaves only 191px
- * of height and the corner blocks would collide. There is no phone design for
- * this section yet, so this only buys the content room to breathe.
+ * The phone frame is a tall 312×540 card — 0.58, well off the 1.84 of the wide
+ * one — and its copy is much larger in proportion. Measured against the card's
+ * width: the red lines run 7%, the name 14%, the role 5.4% and the credits 3.5%,
+ * which on a 351px card come to 24, 48, 19 and 12px. Every one of those is
+ * bigger than the wide layout's value at phone sizes, so they are written phone
+ * first with sm: restoring the desktop tuning — a clamp floor cannot express it,
+ * since a floor above the vw term wins at every width.
+ *
+ * The portraits are as large as the card allows, which is not the same size for
+ * each: the two tall crops fit within it, while Khoa's near-square one has to
+ * run past both edges to carry the same weight. It stops at 76% of the card's
+ * height because that is where his hair meets the underside of the red copy —
+ * any larger and the text sits on his face.
+ *
+ * Nothing in the frame says the card advances, so the counter in its top corner
+ * is ours: a pointer cursor is invisible on a touch screen, and a card that
+ * silently holds two more people is a card nobody clicks. It borrows the pill
+ * the video card already uses, and shows the position so the count is legible
+ * too — an arrow alone says "more", not "three".
  */
 
 /**
@@ -35,7 +52,18 @@ const team = [
   {
     name: "KHOA",
     role: "Founder & CEO",
-    photo: { src: "/images/about/khoa.png", width: 1000, height: 1020, fit: "h-full" },
+    photo: {
+      src: "/images/about/khoa.png",
+      width: 1000,
+      height: 1020,
+      fit: "h-full",
+      // Sized by height and allowed past the card's edges. At 0.98 this cutout
+      // is nearly square, so carrying the same presence as the other two means
+      // going wider than the card. Sat 30% right of centred, so the whole
+      // overflow falls off the right-hand edge and the pointing hand survives.
+      phone:
+        "max-sm:left-[15.5%] max-sm:h-[76%] max-sm:w-auto max-sm:max-w-none",
+    },
     alt: "Khoa, founder and CEO of Sleepy Giant Studio.",
     credits: [
       "Founded Otsu Animation.",
@@ -45,7 +73,13 @@ const team = [
   {
     name: "TYSON",
     role: "Creative Director",
-    photo: { src: "/images/about/tyson.png", width: 400, height: 652, fit: "h-[88%]" },
+    photo: {
+      src: "/images/about/tyson.png",
+      width: 400,
+      height: 652,
+      fit: "h-[88%]",
+      phone: "max-sm:left-[20%] max-sm:h-[79%] max-sm:w-auto max-sm:max-w-none",
+    },
     alt: "Tyson, creative director at Sleepy Giant Studio.",
     credits: [
       "Co-founder of SpartaFX.",
@@ -56,7 +90,13 @@ const team = [
   {
     name: "RAYMOND",
     role: "COO",
-    photo: { src: "/images/about/raymond.png", width: 563, height: 834, fit: "h-[88%]" },
+    photo: {
+      src: "/images/about/raymond.png",
+      width: 563,
+      height: 834,
+      fit: "h-[88%]",
+      phone: "max-sm:left-[20%] max-sm:h-[79%] max-sm:w-auto max-sm:max-w-none",
+    },
     alt: "Raymond, chief operating officer at Sleepy Giant Studio.",
     credits: [
       "Co-founder of Otsu Animation.",
@@ -75,9 +115,9 @@ export function LeadershipCard() {
     <button
       type="button"
       onClick={() => setIndex((n) => (n + 1) % team.length)}
-      aria-label={`Showing ${person.name}. Click for the next member of the leadership team.`}
+      aria-label={`Showing ${person.name}, ${index + 1} of ${team.length}. Click for the next member of the leadership team.`}
       aria-live="polite"
-      className="relative mt-[clamp(1.5rem,2.6vw,3.25rem)] aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-[clamp(0.875rem,1.667vw,2.1rem)] bg-ink text-left focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-cream sm:aspect-[979/532]"
+      className="group relative mt-[clamp(1.5rem,2.6vw,3.25rem)] aspect-[312/540] w-full cursor-pointer overflow-hidden rounded-[clamp(0.875rem,1.667vw,2.1rem)] bg-panel text-left focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-cream sm:aspect-[979/532]"
     >
       {/* Keyed on the name, so every click mounts a fresh block that fades up
           while the outgoing one leaves immediately. */}
@@ -105,12 +145,14 @@ export function LeadershipCard() {
           height={person.photo.height}
           sizes="(max-width: 640px) 50vw, 34vw"
           className={cn(
-            "absolute bottom-0 left-[31.3%] w-[50%] object-contain object-bottom",
+            "absolute bottom-0 left-0 w-full object-contain object-bottom sm:left-[31.3%] sm:w-[50%]",
             person.photo.fit,
+            // Last, so a per-person phone override wins over both.
+            person.photo.phone,
           )}
         />
 
-        <span className="absolute top-[8.8%] left-[4.5%] block text-[clamp(0.8125rem,1.84vw,2.3rem)] leading-[1.15] font-medium text-brand">
+        <span className="absolute top-[4%] left-[6%] block text-[1.5rem] leading-[1.15] font-medium text-brand sm:top-[8.8%] sm:left-[4.5%] sm:text-[clamp(0.8125rem,1.84vw,2.3rem)]">
           {lead.map((line) => (
             <span key={line} className="block">
               {line}
@@ -118,26 +160,41 @@ export function LeadershipCard() {
           ))}
         </span>
 
-        <span className="absolute bottom-[23%] left-[4.5%] block">
-          <span className="block text-[clamp(2rem,5.903vw,7.4rem)] leading-[0.96] font-bold text-cream">
+        <span className="absolute bottom-[27%] left-[6%] block sm:bottom-[23%] sm:left-[4.5%]">
+          <span className="block text-[3rem] leading-[0.96] font-bold text-cream sm:text-[clamp(2rem,5.903vw,7.4rem)]">
             {person.name}
           </span>
-          <span className="block text-[clamp(0.75rem,2.222vw,2.8rem)] leading-[0.96] font-light text-cream">
+          <span className="block text-[1.1875rem] leading-[0.96] font-light text-cream sm:text-[clamp(0.75rem,2.222vw,2.8rem)]">
             {person.role}
           </span>
         </span>
 
-        {/* Capped rather than broken by hand: the roster's credits run to very
-            different lengths, and a width that reproduces Figma's break in
-            Khoa's Netflix line also wraps the longer ones sensibly. */}
-        <span className="absolute right-[3.7%] bottom-[12%] block max-w-[32%] text-[clamp(0.625rem,1.39vw,1.75rem)] leading-[1.25] text-white">
+        {/* Wrapped to a measured width rather than broken by hand. On phones the
+            frame's five breaks — across Raymond's three lines and Tyson's two
+            pairs — are all reproduced by one column, and only just: at 12px they
+            hold between 207 and 212px, so 59.5% of the 351px card sits in the
+            middle of that window. Wider by 13px and "and" joins the line above.
+            From sm it goes back to shrink-to-fit under a 32% cap, which is what
+            reproduces Figma's break in Khoa's Netflix line. */}
+        <span className="absolute right-[5%] bottom-[3%] left-[35.5%] block text-[0.75rem] leading-[1.25] text-white sm:right-[3.7%] sm:bottom-[12%] sm:left-auto sm:max-w-[32%] sm:text-[clamp(0.625rem,1.39vw,1.75rem)]">
           {person.credits.map((credit, i) => (
-            <span key={credit} className={i === 0 ? "block" : "mt-[1.1em] block"}>
+            <span
+              key={credit}
+              className={i === 0 ? "block" : "mt-[1.1em] block"}
+            >
               {credit}
             </span>
           ))}
         </span>
       </motion.span>
+
+      <span
+        aria-hidden
+        className="absolute top-[5.5%] right-[3.7%] flex items-center gap-[0.5em] rounded-full bg-cream/15 px-[0.9em] py-[0.45em] font-mono text-[clamp(0.625rem,0.97vw,1.2rem)] text-cream backdrop-blur-sm transition-colors group-hover:bg-cream/30"
+      >
+        {index + 1}/{team.length}
+        <ChevronRight className="size-[1.2em]" />
+      </span>
     </button>
   );
 }

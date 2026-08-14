@@ -53,13 +53,28 @@ const flows = [
  */
 const TAIL = { x: 0.02, y: 0.02 };
 const HEAD = { x: 0.998, y: 0.873 };
-const ART_ANGLE = Math.atan2(HEAD.y - TAIL.y, HEAD.x - TAIL.x);
-const ART_SPAN = Math.hypot(HEAD.x - TAIL.x, HEAD.y - TAIL.y);
+
+/**
+ * Rotating the artwork cannot change which side of the chord its curve bows
+ * towards — a rotation preserves that. The two layouts want opposite bows, so
+ * the phone one is flipped vertically as well, and its anchors move with it.
+ */
+const flip = (p: { x: number; y: number }) => ({ x: p.x, y: 1 - p.y });
+const ends = (mirror: boolean) =>
+  mirror ? { tail: flip(TAIL), head: flip(HEAD) } : { tail: TAIL, head: HEAD };
 
 /** Drawn a little shorter than the gap it bridges, per the design. */
 const ARROW_SCALE = 0.88;
+/** The phone frame draws it a tenth smaller again against a shorter chord. */
+const PHONE_ARROW_SCALE = ARROW_SCALE * 0.9;
 
-type Placement = { left: number; top: number; size: number; rotation: number };
+type Placement = {
+  left: number;
+  top: number;
+  size: number;
+  rotation: number;
+  mirror: boolean;
+};
 
 export function AboutLoop() {
   const frame = useRef<HTMLDivElement>(null);
@@ -73,51 +88,88 @@ export function AboutLoop() {
     const end = to.current?.getBoundingClientRect();
     if (!box || !start || !end) return;
 
-    // Tail tucked under the first ring's left flank, head landing on the second
-    // ring's right shoulder — the sweep the design draws.
+    // The two layouts run the flows differently, so the connector's ends do too.
+    // Read the breakpoint rather than infer it from the rings' positions, which
+    // would be guessing at the layout from its symptoms.
+    const wide = window.matchMedia("(min-width: 40rem)").matches;
+
+    // Wide: rows stacked, so the tail tucks under the first ring's left flank
+    // and the head lands on the second ring's right shoulder. Barely inset
+    // horizontally — pulling both ends a full 15% of the ring's width inwards
+    // added a third again to the horizontal run and flattened the sweep into a
+    // long shallow curve, where the design's is steep.
     //
-    // Barely inset horizontally. Pulling both ends a full 15% of the ring's
-    // width inwards added a third again to the horizontal run and flattened the
-    // sweep into a long shallow curve; the design's is steep.
-    const tailX = start.left + start.width * 0.08 - box.left;
-    const tailY = start.bottom - start.height * 0.15 - box.top;
-    const headX = end.right - end.width * 0.05 - box.left;
-    const headY = end.top + end.height * 0.18 - box.top;
+    // Phones: columns side by side, so it runs across instead — out of the left
+    // ring's right flank and into the right ring's left one.
+    // Phones shift both ends left of the rings, so the arc clears the "Comes
+    // early" caption sitting above the right one and the head arrives on that
+    // ring's edge rather than inside it.
+    const nudge = wide ? 0 : start.width * 0.12;
+    const tailX = wide
+      ? start.left + start.width * 0.08 - box.left
+      : start.right - start.width * 0.1 - nudge - box.left;
+    const tailY = wide
+      ? start.bottom - start.height * 0.15 - box.top
+      : start.top + start.height * 0.5 - box.top;
+    const headX = wide
+      ? end.right - end.width * 0.05 - box.left
+      : end.left + end.width * 0.1 - nudge - box.left;
+    const headY = wide
+      ? end.top + end.height * 0.18 - box.top
+      : end.top + end.height * 0.5 - box.top;
 
     // Drawn a shade shorter than the run between those two points — and pulled
     // back from the tail end, not from both. The head has to sit on the second
     // ring the way the design draws it; the slack belongs at the other end,
     // where the first ring covers it.
+    const scale = wide ? ARROW_SCALE : PHONE_ARROW_SCALE;
     const h = [headX, headY];
     const t = [
-      headX + (tailX - headX) * ARROW_SCALE,
-      headY + (tailY - headY) * ARROW_SCALE,
+      headX + (tailX - headX) * scale,
+      headY + (tailY - headY) * scale,
     ];
 
     // Turn the artwork so its own tail→head chord lies along the one we want,
-    // and scale it so the two chords are the same length. Rotation preserves
-    // which side of the chord the curve bows towards; a mirror would not.
-    const rotation = Math.atan2(h[1] - t[1], h[0] - t[0]) - ART_ANGLE;
-    const size = Math.hypot(h[0] - t[0], h[1] - t[1]) / ART_SPAN;
+    // and scale it so the two chords are the same length.
+    const mirror = !wide;
+    const { tail, head } = ends(mirror);
+    const artAngle = Math.atan2(head.y - tail.y, head.x - tail.x);
+    const artSpan = Math.hypot(head.x - tail.x, head.y - tail.y);
+
+    const rotation = Math.atan2(h[1] - t[1], h[0] - t[0]) - artAngle;
+    const size = Math.hypot(h[0] - t[0], h[1] - t[1]) / artSpan;
 
     // rotate() spins around the centre, so the tail anchor is carried with it.
     // Walk it back through the same rotation to find where the centre must go
     // for the tail to land on target.
     const cos = Math.cos(rotation);
     const sin = Math.sin(rotation);
-    const ox = (TAIL.x - 0.5) * size;
-    const oy = (TAIL.y - 0.5) * size;
+    const ox = (tail.x - 0.5) * size;
+    const oy = (tail.y - 0.5) * size;
     const cx = t[0] - (ox * cos - oy * sin);
     const cy = t[1] - (ox * sin + oy * cos);
 
-    setArrow({ left: cx - size / 2, top: cy - size / 2, size, rotation });
+    setArrow({
+      left: cx - size / 2,
+      top: cy - size / 2,
+      size,
+      rotation,
+      mirror,
+    });
   }, []);
 
   useEffect(() => {
     measure();
     const observer = new ResizeObserver(measure);
     if (frame.current) observer.observe(frame.current);
-    return () => observer.disconnect();
+    // The frame can cross the breakpoint without changing size, and the anchors
+    // flip on that alone.
+    const mq = window.matchMedia("(min-width: 40rem)");
+    mq.addEventListener("change", measure);
+    return () => {
+      observer.disconnect();
+      mq.removeEventListener("change", measure);
+    };
   }, [measure]);
 
   return (
@@ -130,7 +182,7 @@ export function AboutLoop() {
 
           <div
             ref={frame}
-            className="relative mt-[clamp(1.75rem,3.1vw,3.9rem)] flex flex-col gap-[clamp(2.5rem,4.93vw,6.2rem)]"
+            className="relative mt-[clamp(1.75rem,3.1vw,3.9rem)] flex justify-center gap-[clamp(0.5rem,4.93vw,6.2rem)] max-sm:items-start sm:flex-col"
           >
             {arrow && (
               <Image
@@ -148,12 +200,11 @@ export function AboutLoop() {
                   top: arrow.top,
                   width: arrow.size,
                   height: arrow.size,
-                  transform: `rotate(${arrow.rotation}rad)`,
+                  transform: `rotate(${arrow.rotation}rad)${
+                    arrow.mirror ? " scaleY(-1)" : ""
+                  }`,
                 }}
-                // Hidden on phones: both flow lines wrap there, which puts the
-                // rings on their second lines and leaves the connector no route
-                // between them that does not cut straight through the text.
-                className="pointer-events-none absolute max-sm:hidden"
+                className="pointer-events-none absolute"
               />
             )}
 
@@ -175,11 +226,24 @@ function Flow({
   ringRef,
 }: (typeof flows)[number] & { ringRef: React.Ref<HTMLSpanElement> }) {
   return (
-    <p className="flex flex-wrap items-center justify-center gap-x-[0.35em] gap-y-2 text-[clamp(1.125rem,2.06vw,2.6rem)] leading-[1.05] text-ink">
+    // A column on phones, a line from sm. The steps keep their grouping either
+    // way — each carries the arrow that follows it — so only the axis changes.
+    // flex-1 on phones: each column takes half the width and centres in it, which
+    // is what sets the two rings ~175px apart, as the frame draws them. Sized to
+    // their content instead, they ended up 14px apart with no room for the
+    // connector between them.
+    <p className="flex flex-1 flex-col items-center gap-[0.35em] text-[clamp(1.125rem,2.06vw,2.6rem)] leading-[1.05] text-ink sm:flex-none sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-[0.35em] sm:gap-y-2">
       {before.map((step) => (
-        <span key={step} className="flex items-center gap-x-[0.35em]">
+        <span
+          key={step}
+          className="flex flex-col items-center gap-[0.35em] sm:flex-row"
+        >
           {step}
-          <span aria-hidden>→</span>
+          {/* One glyph, turned a quarter on phones, rather than a second
+              character to keep in step with this one. */}
+          <span aria-hidden className="max-sm:rotate-90">
+            →
+          </span>
         </span>
       ))}
 
@@ -213,18 +277,27 @@ function Flow({
         </span>
 
         {/* Figma Dev Mode on "Comes early": 20px / 105% / 0% tracking in the
-            25 XThin cut, filled pure #000 — so weight 100 and black, not the
-            near-black ink token. 0.66em of the 30px step size lands on 20px.
+            25 XThin cut, filled pure #000 — so weight 100. The fill takes the
+            ink token rather than that literal: pure black is invisible on a dark
+            page, and in the light theme ink is #0d0d0d, which nobody can tell
+            apart from #000. 0.66em of the 30px step size lands on 20px.
             It sits all but centred on the ring, nudged a touch right.
             On phones both flow lines wrap, which can leave the ring on a second
             line with the caption landing on the first — so below sm it stays in
             flow underneath instead. */}
         <span
           className={cn(
-            "block text-center text-[0.66em] leading-[1.05] font-thin whitespace-nowrap text-black",
+            "block text-center text-[0.66em] leading-[1.05] font-thin whitespace-nowrap text-ink",
             // In flow on phones, so it has to be pushed clear of the ring's
-            // lower arc, which hangs below the word it is drawn around.
+            // arc, which hangs past the word it is drawn around.
             "max-sm:mt-[1em]",
+            noteAbove && "max-sm:translate-x-[10%]",
+            // The phone frame puts the captions on the opposite sides to the
+            // wide layout: "Comes last" under its ring, "Comes early" over its
+            // own. Order rather than position, so nothing can overlap the
+            // neighbouring column.
+            !noteAbove &&
+              "max-sm:order-first max-sm:mt-0 max-sm:mb-[1em] max-sm:-translate-x-[60%]",
             "sm:absolute sm:left-1/2 sm:translate-x-[calc(-50%+0.2em)] sm:text-left",
             noteAbove
               ? "sm:bottom-[calc(100%+1.15em)]"
@@ -236,8 +309,13 @@ function Flow({
       </span>
 
       {after.map((step) => (
-        <span key={step} className="flex items-center gap-x-[0.35em]">
-          <span aria-hidden>→</span>
+        <span
+          key={step}
+          className="flex flex-col items-center gap-[0.35em] sm:flex-row"
+        >
+          <span aria-hidden className="max-sm:rotate-90">
+            →
+          </span>
           {step}
         </span>
       ))}
