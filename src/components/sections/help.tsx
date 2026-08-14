@@ -54,14 +54,18 @@ export function Help() {
     <section id="what-we-do" className="pt-[clamp(3rem,5.9vw,7.4rem)]">
       <Container>
         <Reveal>
-          <SectionLabel className="text-center">
-            How we help
-          </SectionLabel>
+          <SectionLabel className="text-center">How we help</SectionLabel>
           {/* Same shape as --text-heading but a gentler vw. This copy needs
               1002px at the token's 46px, more than the 979px column, so it
               would break after "your". 3vw lands at 43px and leaves ~40px of
-              slack — enough that the real Neue Haas cut cannot push it over. */}
-          <h2 className="mt-[clamp(0.25rem,0.4vw,0.5rem)] text-center text-[clamp(2.25rem,3vw,3.75rem)] leading-[1.12] font-bold tracking-[-0.025em]">
+              slack — enough that the real Neue Haas cut cannot push it over.
+              29px on phones, so it holds to two lines: "Built around your stack."
+              is the longer half and only fits a 351px column up to 31.9px, or
+              29.4px on a 360px screen. The clamp's floor was 36px, which is what
+              made it three. An sm: override rather than a lower floor, so nothing
+              above the breakpoint moves — from sm the column is wide enough that
+              the original size is already two lines. */}
+          <h2 className="mt-[clamp(0.25rem,0.4vw,0.5rem)] text-center text-[1.8125rem] leading-[1.12] font-bold tracking-[-0.025em] sm:text-[clamp(2.25rem,3vw,3.75rem)]">
             Full-service execution. Built around your stack.
           </h2>
         </Reveal>

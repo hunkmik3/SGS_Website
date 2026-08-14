@@ -175,8 +175,10 @@ export function LeadershipCard() {
             hold between 207 and 212px, so 59.5% of the 351px card sits in the
             middle of that window. Wider by 13px and "and" joins the line above.
             From sm it goes back to shrink-to-fit under a 32% cap, which is what
-            reproduces Figma's break in Khoa's Netflix line. */}
-        <span className="absolute right-[5%] bottom-[3%] left-[35.5%] block text-[0.75rem] leading-[1.25] text-white sm:right-[3.7%] sm:bottom-[12%] sm:left-auto sm:max-w-[32%] sm:text-[clamp(0.625rem,1.39vw,1.75rem)]">
+            reproduces Figma's break in Khoa's Netflix line.
+            text-pretty keeps "Netflix." off a line of its own; the other two
+            already end on more than one word, so it leaves their breaks alone. */}
+        <span className="absolute right-[5%] bottom-[3%] left-[35.5%] block text-[0.75rem] leading-[1.25] text-pretty text-white sm:right-[3.7%] sm:bottom-[12%] sm:left-auto sm:max-w-[32%] sm:text-[clamp(0.625rem,1.39vw,1.75rem)]">
           {person.credits.map((credit, i) => (
             <span
               key={credit}
