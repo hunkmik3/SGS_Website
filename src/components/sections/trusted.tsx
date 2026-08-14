@@ -3,6 +3,7 @@ import { Fragment, type CSSProperties } from "react";
 
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { clientLogos } from "@/lib/logos";
 
 /**
@@ -25,9 +26,9 @@ export function Trusted() {
     <section className="pt-section">
       <Container>
         <Reveal>
-          <p className="text-center font-mono text-[clamp(0.9375rem,1.41vw,1.76rem)] text-ink">
+          <SectionLabel className="text-center">
             Trusted by
-          </p>
+          </SectionLabel>
         </Reveal>
 
         <Reveal delay={0.08}>

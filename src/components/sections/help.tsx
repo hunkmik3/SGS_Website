@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { cn } from "@/lib/utils";
 
 /**
@@ -53,9 +54,9 @@ export function Help() {
     <section id="what-we-do" className="pt-[clamp(3rem,5.9vw,7.4rem)]">
       <Container>
         <Reveal>
-          <p className="text-center font-mono text-[clamp(0.9375rem,1.41vw,1.76rem)] text-ink">
+          <SectionLabel className="text-center">
             How we help
-          </p>
+          </SectionLabel>
           {/* Same shape as --text-heading but a gentler vw. This copy needs
               1002px at the token's 46px, more than the 979px column, so it
               would break after "your". 3vw lands at 43px and leaves ~40px of

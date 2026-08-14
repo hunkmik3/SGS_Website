@@ -6,6 +6,7 @@ import { Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { checkAttachment } from "@/lib/attachment";
 import { contactFields, detailsPlaceholder } from "@/lib/contact";
 import { cn } from "@/lib/utils";
@@ -82,9 +83,9 @@ export function Contact() {
     <section id="contact" className="pt-section pb-[clamp(4rem,9.4vw,8.4rem)]">
       <Container>
         <Reveal>
-          <p className="text-center font-mono text-[clamp(0.9375rem,1.41vw,1.76rem)] text-ink">
+          <SectionLabel className="text-center">
             Start A Project
-          </p>
+          </SectionLabel>
           {/* Same curve as --text-heading, lower floor. The shared token sits at
               31px on phones because "Don't take our word for it." has to break
               onto two lines there; this heading wants to stay on one, so it

@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 
 /**
  * Figma measurements (1440 frame): heading 44px centred, then a two-column row
@@ -11,9 +12,7 @@ import { Reveal } from "@/components/ui/reveal";
 export function Problem() {
   // Top padding only — each section owns the gap above it.
   return (
-    // #about lands here: this is the studio's positioning — the thesis behind
-    // the work — which is what a visitor clicking "About" is looking for.
-    <section id="about" className="pt-section">
+    <section className="pt-section">
       <Container>
         <Reveal>
           <h2 className="text-center text-heading font-bold">
@@ -27,9 +26,9 @@ export function Problem() {
           {/* Stacked on a phone the copy is centred, matching the heading above
               it; once it sits beside the chart it goes back to flush left. */}
           <Reveal className="text-center lg:text-left">
-            <p className="font-mono text-[clamp(0.9375rem,1.41vw,1.76rem)] text-brand">
+            <SectionLabel className="text-brand">
               The problem
-            </p>
+            </SectionLabel>
 
             <h3 className="mt-[clamp(1rem,2vw,2.5rem)] text-subhead font-bold">
               Talent isn&apos;t the bottleneck.

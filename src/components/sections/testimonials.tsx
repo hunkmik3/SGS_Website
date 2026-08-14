@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { initials, testimonials, type Testimonial } from "@/lib/testimonials";
 import { cn } from "@/lib/utils";
 
@@ -20,9 +21,9 @@ export function Testimonials() {
     <section className="pt-[clamp(3.5rem,7.1vw,8.9rem)]">
       <Container>
         <Reveal>
-          <p className="text-center font-mono text-[clamp(0.9375rem,1.41vw,1.76rem)] text-ink">
+          <SectionLabel className="text-center">
             Testimonials
-          </p>
+          </SectionLabel>
           <h2 className="mt-[clamp(0.25rem,0.4vw,0.5rem)] text-center text-heading font-bold">
             Don&apos;t take our word for it.
           </h2>
