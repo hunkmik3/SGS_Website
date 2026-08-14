@@ -6,15 +6,20 @@
 /**
  * Hard ceiling for a file travelling inside the email itself.
  *
- * This cannot be raised much: Resend caps a message at 40MB, most inboxes
- * reject above ~25MB, and base64 inflates a file by about a third. On Vercel
- * the binding limit is lower still — a Serverless Function request body is
- * capped at 4.5MB, so anything over ~3MB never reaches this code.
+ * Set by the host, not by the mail: Resend caps a message at 40MB and most
+ * inboxes reject above ~25MB, but a Vercel function's request body is capped at
+ * 4.5MB, and that cap is enforced before this code runs. 4MB leaves room for the
+ * five text fields and the multipart framing inside it.
+ *
+ * It has to match the platform or the check is worse than useless: at the 8MB
+ * this used to be, a 6MB file passed in the browser and was then refused by
+ * Vercel with a 413 the form never sees, so the visitor got a generic failure
+ * instead of being told the file was too big.
  *
  * Bigger files need a different route entirely: upload straight from the
  * browser to object storage with a presigned URL and mail the link instead.
  */
-export const MAX_ATTACHMENT_BYTES = 8 * 1024 * 1024;
+export const MAX_ATTACHMENT_BYTES = 4 * 1024 * 1024;
 
 /**
  * An allowlist, not a blocklist. Blocklists are a losing game — every list of
