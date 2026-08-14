@@ -8,9 +8,7 @@ export function AboutLeadership() {
     <section className="pt-section">
       <Container>
         <Reveal>
-          <SectionLabel className="text-center uppercase">
-            Leadership team
-          </SectionLabel>
+          <SectionLabel className="text-center">Leadership team</SectionLabel>
 
           <LeadershipCard />
         </Reveal>

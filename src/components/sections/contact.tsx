@@ -85,10 +85,7 @@ export function Contact() {
     <section id="contact" className="pt-section pb-[clamp(4rem,9.4vw,8.4rem)]">
       <Container>
         <Reveal>
-          {/* Capitalised in CSS, not in the copy, so it is still read as a sentence. */}
-          <SectionLabel className="text-center uppercase">
-            Start A Project
-          </SectionLabel>
+          <SectionLabel className="text-center">Start A Project</SectionLabel>
           {/* Same curve as --text-heading, lower floor. The shared token sits at
               31px on phones because "Don't take our word for it." has to break
               onto two lines there; this heading wants to stay on one, so it

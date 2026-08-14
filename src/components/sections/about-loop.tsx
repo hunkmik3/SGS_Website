@@ -176,7 +176,7 @@ export function AboutLoop() {
     <section className="pt-section">
       <Container>
         <Reveal>
-          <SectionLabel className="text-center uppercase">
+          <SectionLabel className="text-center">
             The new loop of entertainment R&amp;D engine
           </SectionLabel>
 

@@ -60,7 +60,10 @@ export function Footer() {
 
           {/* The design pairs this with the line above the heading — same face,
               same size, bracketing it — so it takes the same component. */}
-          <SectionLabel className="mt-[clamp(1rem,2.4vw,3rem)] text-cream">
+          {/* The one label that opts out of the caps: this line carries an address,
+              and CONTACT@SLEEPYGIANT.STUDIO reads as shouting rather than as a
+              label. */}
+          <SectionLabel className="mt-[clamp(1rem,2.4vw,3rem)] normal-case text-cream">
             Contact email:{" "}
             <a
               href={`mailto:${site.email}`}
