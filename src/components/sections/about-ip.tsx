@@ -25,8 +25,8 @@ export function AboutIp() {
           <Image
             src="/images/giant-mark-red.png"
             alt=""
-            width={301}
-            height={360}
+            width={900}
+            height={1075}
             className="h-[clamp(3.375rem,6.18vw,7.75rem)] w-auto"
           />
 

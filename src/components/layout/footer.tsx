@@ -37,8 +37,8 @@ export function Footer() {
         src="/images/giant-mark-red.png"
         alt=""
         aria-hidden
-        width={301}
-        height={360}
+        width={900}
+        height={1075}
         sizes="(max-width: 640px) 66vw, 31vw"
         className="pointer-events-none absolute top-[44%] left-[22%] h-auto w-[66%] sm:top-[3%] sm:left-[56%] sm:w-[31%]"
       />

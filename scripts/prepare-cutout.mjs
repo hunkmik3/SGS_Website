@@ -1,6 +1,6 @@
 /**
  * Resizes a transparent-background cutout for the web.
- *   node scripts/prepare-cutout.mjs <source.png> <slug> [width]
+ *   node scripts/prepare-cutout.mjs <source.png> <slug> [width] [dir]
  *
  * Stays PNG rather than becoming JPEG: the alpha channel is the whole point of
  * a cutout, and JPEG has none. next/image re-encodes it to WebP or AVIF at
@@ -9,12 +9,12 @@
 import { mkdir, stat } from "node:fs/promises";
 import sharp from "sharp";
 
-const [src, slug, width = "1000"] = process.argv.slice(2);
+const [src, slug, width = "1000", dir = "about"] = process.argv.slice(2);
 if (!src || !slug) {
-  throw new Error("usage: node scripts/prepare-cutout.mjs <source.png> <slug> [width]");
+  throw new Error("usage: node scripts/prepare-cutout.mjs <source.png> <slug> [width] [dir]");
 }
 
-const OUT = new URL("../public/images/about/", import.meta.url).pathname;
+const OUT = new URL(`../public/images/${dir}/`, import.meta.url).pathname;
 await mkdir(OUT, { recursive: true });
 const dest = `${OUT}${slug}.png`;
 
