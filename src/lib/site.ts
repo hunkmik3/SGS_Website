@@ -1,7 +1,8 @@
 export const site = {
   name: "Sleepy Giant Studio",
   tagline: "AI-native creative studio",
-  email: "khoa@sleepygiant.studio",
+  /** Shown in the footer. The form posts to CONTACT_TO_EMAIL, set in Vercel. */
+  email: "contact@sleepygiant.studio",
   location: "Singapore",
   /** Hard-coded rather than derived from the clock: a build-time year would
    *  freeze at deploy anyway, and Figma specifies this one. */

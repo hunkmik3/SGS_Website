@@ -68,8 +68,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    // The site is dark. The attribute stays rather than the tokens being rewritten
+    // in place, so the light theme is still whole in globals.css and going back is
+    // this one attribute.
     <html
       lang="en"
+      data-theme="dark"
       className={`${display.variable} ${code.variable} ${quote.variable} ${label.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col overflow-x-hidden">

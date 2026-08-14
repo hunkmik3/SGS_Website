@@ -4,8 +4,6 @@ import { Contact } from "@/components/sections/contact";
 import { Help } from "@/components/sections/help";
 import { Hero } from "@/components/sections/hero";
 import { Problem } from "@/components/sections/problem";
-import { Stats } from "@/components/sections/stats";
-import { Testimonials } from "@/components/sections/testimonials";
 import { Trusted } from "@/components/sections/trusted";
 import { Work } from "@/components/sections/work";
 
@@ -18,8 +16,6 @@ export default function Home() {
         <Work />
         <Problem />
         <Help />
-        <Stats />
-        <Testimonials />
         <Trusted />
         <Contact />
       </main>

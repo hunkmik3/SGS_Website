@@ -73,7 +73,9 @@ export function Contact() {
       setFileName(null);
     } catch {
       setStatus("error");
-      setMessage("We could not reach the server. Please check your connection.");
+      setMessage(
+        "We could not reach the server. Please check your connection.",
+      );
     }
   };
 
@@ -83,7 +85,8 @@ export function Contact() {
     <section id="contact" className="pt-section pb-[clamp(4rem,9.4vw,8.4rem)]">
       <Container>
         <Reveal>
-          <SectionLabel className="text-center">
+          {/* Capitalised in CSS, not in the copy, so it is still read as a sentence. */}
+          <SectionLabel className="text-center uppercase">
             Start A Project
           </SectionLabel>
           {/* Same curve as --text-heading, lower floor. The shared token sits at
