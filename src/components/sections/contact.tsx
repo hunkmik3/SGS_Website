@@ -92,7 +92,7 @@ export function Contact() {
               needs its own minimum. The vw term is untouched, so desktop is
               identical to every other section heading. */}
           <h2 className="mt-[clamp(0.25rem,0.4vw,0.5rem)] text-center text-[clamp(1.75rem,3.2vw,4rem)] leading-[1.12] font-bold tracking-[-0.025em]">
-            Bring your vision to life.
+            Bring your vision to life
           </h2>
         </Reveal>
 
