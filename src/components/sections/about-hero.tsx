@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 const rows = [
   {
     src: "/images/about/human-craft.jpg",
-    alt: "A producer at a multi-screen desk in the studio.",
+    alt: "A Sleepy Giant Studio founder giving a keynote on how AI is rebuilding the entertainment industry.",
     label: ["Human craft", "x Machine speed"],
     side: "right",
     onPanel: true,
