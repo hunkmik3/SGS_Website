@@ -60,10 +60,10 @@ export function Problem() {
 
           <Reveal delay={0.1}>
             <Image
-              src="/images/problem-ceiling-chart.png"
-              alt="Bar chart: output stays flat against a dashed ceiling line while demand keeps rising."
+              src="/images/problem-ceiling.png"
+              alt="Two studios side by side: a traditional one whose output is capped by headcount, and SGS with an AI engine running ten times faster."
               width={1600}
-              height={997}
+              height={906}
               sizes="(max-width: 1024px) 90vw, 36vw"
               className="w-full rounded-[clamp(0.5rem,0.9vw,1.1rem)]"
             />
