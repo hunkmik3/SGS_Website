@@ -3,8 +3,8 @@ export type ClientLogo = {
   src: string;
   /**
    * Height relative to the row's base size. Figma sets each logo optically
-   * rather than to a common height — the Kadokawa crest reads small at the
-   * width the wordmarks need, the Ninety Eight lockup is two lines tall.
+   * rather than to a common height — the stacked Rainshine lockup reads small
+   * at the width the wordmarks need, the Ninety Eight lockup is two lines tall.
    */
   scale: number;
   /**
@@ -33,12 +33,18 @@ export const clientLogos: ClientLogo[] = [
   { name: "Avis", src: "/images/logos/avis.png", scale: 0.84, mobileOrder: 6 },
   { name: "GlobalComix", src: "/images/logos/globalcomix.png", scale: 1.0, mobileOrder: 5 },
   { name: "INKR", src: "/images/logos/inkr.png", scale: 0.93, mobileOrder: 4 },
-  { name: "FanFan", src: "/images/logos/fanfan.png", scale: 0.96, mobileOrder: 2 },
   {
-    name: "Kadokawa",
-    src: "/images/logos/kadokawa.png",
-    scale: 1.51,
-    mobileScale: 1.91,
+    name: "Graphic India",
+    src: "/images/logos/graphic-india.png",
+    scale: 1.55,
+    mobileScale: 1.7,
+    mobileOrder: 2,
+  },
+  {
+    name: "Rainshine Entertainment",
+    src: "/images/logos/rainshine.png",
+    scale: 1.6,
+    mobileScale: 1.9,
     mobileOrder: 1,
   },
   { name: "BytePlus", src: "/images/logos/byteplus.png", scale: 0.89, mobileOrder: 3 },

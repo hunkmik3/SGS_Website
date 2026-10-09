@@ -50,10 +50,11 @@ export function Trusted() {
                   }
                   className="order-(--mobile-order) lg:order-0"
                 >
-                  {/* unoptimized: Next's WebP re-encode drops the black wordmark
-                      out of the FanFan lockup — the PNG variant keeps 92k dark
-                      pixels, the WebP one only 4k. These are small flat PNGs, so
-                      serving the originals costs little and renders faithfully. */}
+                  {/* unoptimized: Next's WebP re-encode drops dark wordmarks out
+                      of flat marks like these — on the old FanFan lockup the PNG
+                      kept 92k dark pixels, the WebP only 4k. These are small flat
+                      PNGs, so serving the originals costs little and renders
+                      faithfully. */}
                   {/* Height comes from the shared base times the per-logo
                       factor, so the breakpoint swap is a variable change rather
                       than a second set of size classes. */}
