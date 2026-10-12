@@ -30,7 +30,7 @@ export const clientLogos: ClientLogo[] = [
     mobileScale: 1.66,
     mobileOrder: 0,
   },
-  { name: "Avis", src: "/images/logos/avis.png", scale: 0.84, mobileOrder: 6 },
+  { name: "Avis", src: "/images/logos/avis.png", scale: 1.02, mobileOrder: 6 },
   { name: "GlobalComix", src: "/images/logos/globalcomix.png", scale: 1.0, mobileOrder: 5 },
   { name: "INKR", src: "/images/logos/inkr.png", scale: 0.93, mobileOrder: 4 },
   {
